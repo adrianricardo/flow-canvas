@@ -2,10 +2,12 @@
 
 Generate interactive state flow diagrams with live component previews. Powered by `@xyflow/react` + `dagre` auto-layout.
 
+![flow-canvas screenshot](screenshot.png)
+
 ## Install
 
 ```bash
-npx add-skill adrianricardo/flow-canvas
+npx skills add adrianricardo/flow-canvas
 ```
 
 ## Use
