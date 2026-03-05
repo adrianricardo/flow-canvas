@@ -1,81 +1,45 @@
 # flow-canvas
 
-A Claude Code skill that generates interactive state flow diagrams using `@xyflow/react` + `dagre` auto-layout. Describe your flow in natural language or arrow notation, and get a fully working, interactive canvas with live component previews.
+Generate interactive state flow diagrams with live component previews. Powered by `@xyflow/react` + `dagre` auto-layout.
 
-## Installation
-
-### Option 1: Symlink (local development)
+## Install
 
 ```bash
-ln -s /path/to/flow-canvas ~/.claude/skills/flow-canvas
+npx add-skill adrianricardo/flow-canvas
 ```
 
-### Option 2: Add to project's `skills-lock.json`
+## Use
 
-```json
-{
-  "flow-canvas": {
-    "path": "/path/to/flow-canvas"
-  }
-}
-```
-
-### Option 3: Copy into your project
-
-```bash
-cp -r flow-canvas/ your-project/.claude/skills/flow-canvas/
-```
-
-## Usage
-
-In any Claude Code session, describe a flow:
+In Claude Code:
 
 ```
 /flow-canvas cart → shipping → payment → confirmation
 ```
 
-Or use natural language:
+Automatically detects your framework, installs packages, discovers matching components, and generates a working flow canvas route. Super simple.
 
-```
-/flow-canvas Create a flow diagram for our checkout process.
-The user starts at the cart, then enters shipping details,
-then payment. If payment fails, they retry. If it succeeds,
-they see a confirmation page.
-```
+## What It Does
 
-## What Gets Generated
+- Parses your flow from natural language or arrow notation
+- Finds existing React components in your codebase that match each node
+- Generates an interactive canvas with dagre auto-layout, live component previews, and a minimap
+- Works with Next.js (App Router, Pages Router) and Vite
 
-**First invocation** — creates shared infrastructure + your flow:
+## Generated Files
+
+**First flow** creates shared infrastructure + your flow definition:
 
 ```
 src/
-├── components/flow/
-│   ├── FlowCanvas.tsx        # Canvas + dagre layout + toolbar
-│   ├── ComponentNode.tsx     # Live component renderer
-│   ├── PlaceholderNode.tsx   # Decision/placeholder nodes
-│   └── FlowEdge.tsx          # Bezier edges with "+" button
+├── components/flow/          # Shared (generated once)
+│   ├── FlowCanvas.tsx
+│   ├── ComponentNode.tsx
+│   ├── PlaceholderNode.tsx
+│   └── FlowEdge.tsx
 ├── config/flows/
-│   └── checkout.ts           # Your flow definition
+│   └── checkout.ts           # Your flow
 └── app/flows/checkout/
-    └── page.tsx              # Route page
+    └── page.tsx              # Route
 ```
 
-**Subsequent invocations** — only adds 2 files per flow (definition + route page). Infrastructure is reused.
-
-## Features
-
-- Automatic dagre graph layout (toggle between left-to-right and top-to-bottom)
-- Live React component previews inside nodes
-- Lazy loading for all component previews
-- Decision nodes with editable notes
-- Click "+" on any edge to insert a new node
-- MiniMap, zoom controls, and pan
-- Dark mode support
-- Works with Next.js (App Router, Pages Router) and Vite
-
-## Requirements
-
-- React 18+
-- `@xyflow/react` and `@dagrejs/dagre` (auto-installed by the skill)
-- `lucide-react` for icons (auto-installed if missing)
-- Tailwind CSS recommended (falls back to inline styles)
+**Additional flows** only add 2 files each. Infrastructure is reused.
